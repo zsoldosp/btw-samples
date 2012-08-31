@@ -1,4 +1,5 @@
 ﻿import infrastructure
+import os
 
 # using System;
 # using System.Collections.Generic;
@@ -12,14 +13,15 @@
 #     {
 
 def main():
-    print 'hello world'
+    readme_file_name = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), '..', '..', 'ReadMe.md')
+    )
+    # TODO: should I create a separate readme file for python?
+    with open(readme_file_name, 'r') as f:
+        print f.read()
 
 #         static void Main(string[] args)
 #         {
-#             var readmeFileDirectory = new FileInfo(Assembly.GetEntryAssembly().Location).DirectoryName;
-#             var readmeFileName = Path.Combine(readmeFileDirectory, "Readme.md");
-#             Print(File.ReadAllText(readmeFileName));
-# 
 #             // Note:  You can push Ctrl+F5 to run this program sample and see the console output
 #             // Our goal is to allow customers to add & remove shopping items to their product basket
 #             // so that they can checkout and buy whatever is in the basket when they are done shopping.
