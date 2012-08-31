@@ -18,7 +18,7 @@ def main():
     )
     # TODO: should I create a separate readme file for python?
     with open(readme_file_name, 'r') as f:
-        print f.read()
+        _print(f.read())
 
 #         static void Main(string[] args)
 #         {
@@ -235,34 +235,21 @@ def main():
 #             ((dynamic) basket).When((dynamic)message);
 #         }
 # 
-#         static void Print(string message)
-#         {
-#             // just printing messages nicely
-#             // and without spaces in the beginning
-#             var oldColor = Console.ForegroundColor;
-#             foreach (var line in message.Split(new[] { Environment.NewLine },StringSplitOptions.None))
-#             {
-#              
-# 
-#                 var trimmed = line.TrimStart();
-# 
-#                 if (trimmed.StartsWith("#"))
-#                 {
-#                     Console.ForegroundColor = ConsoleColor.DarkRed;
-#                 }
-#                 else if (trimmed.StartsWith("*") | trimmed.StartsWith("- "))
-#                 {
-#                     Console.ForegroundColor = ConsoleColor.DarkBlue;
-#                 }
-#                 else
-#                 {
-#                     Console.ForegroundColor = ConsoleColor.DarkGreen;
-#                 }
-#                 
-#                 Console.WriteLine(trimmed);
-#             }
-#             Console.ForegroundColor = oldColor;
-#         }
+
+def _print(message):
+    """
+        Prints messages nicely, without spaces in the beginning
+    """
+    for line in message.splitlines():
+        trimmed = line.lstrip()
+        if trimmed.startswith('#'):
+            pass # TODO: Console.ForegroundColor = ConsoleColor.DarkRed;
+        elif any(trimmed.startswith(pattern) for pattern in ['*', '- ']):
+            pass # TODO Console.ForegroundColor = ConsoleColor.DarkBlue;
+        else:
+            pass # TODO: Console.ForegroundColor = ConsoleColor.DarkGreen;
+        print trimmed
+        pass # TODO: Console.ForegroundColor = oldColor;
 # 
 #         
 # 
