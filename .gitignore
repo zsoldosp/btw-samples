@@ -5,3 +5,6 @@ _Resharper*
 *.build.csdef
 *.suo
 csx
+*~
+*.pyc
+*.swp
