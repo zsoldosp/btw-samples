@@ -51,8 +51,8 @@ def main():
     # ProductBasket is running on some other machine or set of machines.
     # In a distributed computing environment like that,
     # a better approach to executing method calls on remote objects like our
-    # ProductBasket is to usa a message class with messaging infrastructure.
-# 
+    # ProductBasket is to use a message class with messaging infrastructure.
+
     # A "message" is just a regular class that you define that will be used to
     # store the required data that the remote object's parameters need you to pass
     # into it as arguments.
