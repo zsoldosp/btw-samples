@@ -19,28 +19,24 @@ def main():
     # TODO: should I create a separate readme file for python?
     with open(readme_file_name, 'r') as f:
         _print(f.read())
+    # Note:  You can push Ctrl+F5 to run this program sample and see the console output
+    # Our goal is to allow customers to add & remove shopping items to their product basket
+    # so that they can checkout and buy whatever is in the basket when they are done shopping.
+    # In the sample below, we will show two possible approaches for achieving that goal:
+    # 1)  The traditional approach of calling methods on objects direclty
+    # 2)  The messaging approach using message classes that contains the data the remote method needs
+    # 
+    # Note: "_print" is just a small utility method that helps us write text to the console window
+    _print("""
+        Let's create a new product basket to hold our shopping items and simply
+        add some products to it directly via traditonal BLOCKING method calls.
+    """);
 
-#         static void Main(string[] args)
-#         {
-#             // Note:  You can push Ctrl+F5 to run this program sample and see the console output
-#             // Our goal is to allow customers to add & remove shopping items to their product basket
-#             // so that they can checkout and buy whatever is in the basket when they are done shopping.
-#             // In the sample below, we will show two possible approaches for achieving that goal:
-#             // 1)  The traditional approach of calling methods on objects direclty
-#             // 2)  The messaging approach using message classes that contains the data the remote method needs
-# 
-#             // Note: "Comment" is just a small utility method that helps us write text to the console window
-#             Print(@"
-# 
-#             Let's create a new product basket to hold our shopping items and simply
-#             add some products to it directly via traditonal BLOCKING method calls.
-#             ");
-# 
-#             // Create an instance of the ProductBasket class
-#             // It's AddProduct method takes the following arguments:
-#             //   a string with the name of a product we want to buy
-#             //   and a double number indicating the quantity of that item that we want
-#             // It then stores that item information in its internal _products Dictonary
+    # Create an instance of the ProductBasket class
+    # It's AddProduct method takes the following arguments:
+    #   a string with the name of a product we want to buy
+    #   and a double number indicating the quantity of that item that we want
+    # It then stores that item information in its internal _products Dictonary
 # 
 #             var basket = new ProductBasket();
 # 
