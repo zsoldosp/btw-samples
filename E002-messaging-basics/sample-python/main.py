@@ -37,13 +37,12 @@ def main():
     #   a string with the name of a product we want to buy
     #   and a double number indicating the quantity of that item that we want
     # It then stores that item information in its internal _products Dictonary
-# 
-#             var basket = new ProductBasket();
-# 
-#             // Add some products to that shopping basket
-#             basket.AddProduct("butter", 1);
-# 
-#             basket.AddProduct("pepper", 2);
+
+    basket = ProductBasket()
+
+    # Add some products to that shopping basket
+    basket.add_product('buter', 1)
+    basket.add_product('pepper', 2)
 # 
 #             // The code above just used normal blocking method calls
 #             // to add items direclty into the ProductBasket object instance.
@@ -258,21 +257,18 @@ def _print(message):
 #         
 # 
 # 
-#         public class ProductBasket
-#         {
-#             readonly IDictionary<string, double> _products = new Dictionary<string, double>(); 
-# 
-#             public void AddProduct(string name, double quantity)
-#             {
-#                 double currentQuantity;
-#                 if (!_products.TryGetValue(name,out currentQuantity))
-#                 {
-#                     currentQuantity = 0;
-#                 }
-#                 _products[name] = quantity + currentQuantity;
-# 
-#                 Console.WriteLine("Shopping Basket said: I added {0} unit(s) of '{1}'", quantity, name);
-#             }
+class ProductBasket(object):
+    def __init__(self):
+        self._products = {}
+
+    def add_product(self, name, quantity): # TODO: does it really have to be double like the C# prog says?
+        current_quantity = self._products.get(name, 0)
+        self._products[name] = current_quantity + quantity 
+        print '%(object)s said: I added %(quantity).2f unit(s) of %(product_name)s' % dict(
+                object = type(self).__name__,
+                quantity = quantity,
+                product_name = name
+            )
 # 
 #             public void When(AddProductToBasketMessage toBasketMessage)
 #             {
