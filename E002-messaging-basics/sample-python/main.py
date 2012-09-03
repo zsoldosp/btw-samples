@@ -240,6 +240,14 @@ def _print(message):
     """
         Prints messages nicely, without spaces in the beginning
     """
+    """
+        >>> import curses
+        Traceback (most recent call last):
+          File "<stdin>", line 1, in <module>
+          File "C:\lib\Python\3.2-x86\lib\curses\__init__.py", line 15, in <module>
+            from _curses import *
+        ImportError: No module named _curses    
+    """
     for line in message.splitlines():
         trimmed = line.lstrip()
         if trimmed.startswith('#'):
