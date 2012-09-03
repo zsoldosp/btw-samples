@@ -12,6 +12,11 @@ import os
 #     class Program
 #     {
 
+def apply_message(basket, message):
+    method_to_call = 'when_%s' % type(message).__name__.lower() # TODO: should make this separate by underscores
+    assert hasattr(basket, method_to_call), '%s has no method called %s' % (type(basket), method_to_call)
+    getattr(basket, method_to_call)(message)
+
 def main():
     readme_file_name = os.path.abspath(
         os.path.join(os.path.dirname(__file__), '..', '..', 'ReadMe.md')
@@ -78,27 +83,20 @@ def main():
         '%s'
         by sending it to the product basket to be handled.
     """ % message)
-# 
-#             ApplyMessage(basket, message);
-# 
-# 
-#             Print(@"
-#             We don't have to send/apply messages immediately.  We can put messages into 
-#             some queue and send them later if needed. 
-# 
-#             Let's define more messages to put in a queue:
-#             ");
-# 
+
+    apply_message(basket, message)
+    _print("""
+        We don't have to send/apply messages immediately.  We can put messages into 
+        some queue and send them later if needed. 
+        
+        Let's define more messages to put in a queue:
+    """)
     # create more AddProductToBasketMessage's and put them in a queue for processing later
-#             var queue = new Queue<object>();
-#             queue.Enqueue(new AddProductToBasketMessage("Chablis wine", 1));
-#             queue.Enqueue(new AddProductToBasketMessage("shrimps", 10));
-# 
-    # display each to message on the console
-#             foreach (var enqueuedMessage in queue)
-#             {
-#                 Print(" [Message in Queue is:] * " + enqueuedMessage);
-#             }
+    queue = []
+    queue.append(AddProductToBasketMessage("Chablis wine", 1))
+    queue.append(AddProductToBasketMessage("shrimps", 10))
+    for enqueuedMessage in queue:
+        print u" [Message in Queue is:] * %s" % enqueuedMessage
 # 
 # 
 #             Print(@"
@@ -225,12 +223,6 @@ def main():
 #             ");
 #         }
 # 
-#         static void ApplyMessage(ProductBasket basket, object message)
-#         {
-    # this code accepts the message and actually adds the product to the supplied basket.
-#             ((dynamic) basket).When((dynamic)message);
-#         }
-# 
 
 def _print(message):
     """
@@ -270,10 +262,14 @@ class ProductBasket(object):
                 quantity = quantity,
                 product_name = name
             )
+
+    def when_addproducttobasketmessage(self, message):
+        print "[Message Applied]: "
+        self.add_product(message.name, message.quantity)
 # 
 #             public void When(AddProductToBasketMessage toBasketMessage)
 #             {
-#                 Console.Write("[Message Applied]: ");
+#                 Console.Write(
 #                 AddProduct(toBasketMessage.Name, toBasketMessage.Quantity);
 #             }
 # 
