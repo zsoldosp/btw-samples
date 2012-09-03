@@ -43,25 +43,25 @@ def main():
     # Add some products to that shopping basket
     basket.add_product('buter', 1)
     basket.add_product('pepper', 2)
+
+    # The code above just used normal blocking method calls
+    # to add items direclty into the ProductBasket object instance.
+    # That works pretty well when the ProductBasket object happens to be
+    # running in the same process and thread as the requestor, but not so well when our
+    # ProductBasket is running on some other machine or set of machines.
+    # In a distributed computing environment like that,
+    # a better approach to executing method calls on remote objects like our
+    # ProductBasket is to usa a message class with messaging infrastructure.
 # 
-#             // The code above just used normal blocking method calls
-#             // to add items direclty into the ProductBasket object instance.
-#             // That works pretty well when the ProductBasket object happens to be
-#             // running in the same process and thread as the requestor, but not so well when our
-#             // ProductBasket is running on some other machine or set of machines.
-#             // In a distributed computing environment like that,
-#             // a better approach to executing method calls on remote objects like our
-#             // ProductBasket is to usa a message class with messaging infrastructure.
-# 
-#             // A "message" is just a regular class that you define that will be used to
-#             // store the required data that the remote object's parameters need you to pass
-#             // into it as arguments.
-#             // So from our first example, we know that when we call the ProductBasket's
-#             // AddProduct method, we need to supply name and quantity arguments to it.
-#             // We did that directly above but now we are going to use a message class
-#             // to store the values of the name and quantity arguements for us.
-#             // The AddProductToBasketMessage is a class defined lower in this Program.cs file
-#             // that will do exactly that for us.
+    # A "message" is just a regular class that you define that will be used to
+    # store the required data that the remote object's parameters need you to pass
+    # into it as arguments.
+    # So from our first example, we know that when we call the ProductBasket's
+    # AddProduct method, we need to supply name and quantity arguments to it.
+    # We did that directly above but now we are going to use a message class
+    # to store the values of the name and quantity arguements for us.
+    # The AddProductToBasketMessage is a class defined lower in this Program.cs file
+    # that will do exactly that for us.
 # 
 #             Print(@"
 #             Now, to add more stuff to the shopping basket via messaging (instead of a
@@ -69,8 +69,8 @@ def main():
 #             and quantity arguments that will be provided to ProductBasket.AddProduct later
 #             ");
 # 
-#             // creating a new message to hold the arguments of "5 candles" to be addded to the basket
-#             // looks like Rinat was planning a romantic dinner when he started this sample ;)
+    # creating a new message to hold the arguments of "5 candles" to be addded to the basket
+    # looks like Rinat was planning a romantic dinner when he started this sample ;)
 #             var message = new AddProductToBasketMessage("candles",5);
 # 
 #             Print(@"Now, since we created that message, we will apply its item contents of:
@@ -88,12 +88,12 @@ def main():
 #             Let's define more messages to put in a queue:
 #             ");
 # 
-#             // create more AddProductToBasketMessage's and put them in a queue for processing later
+    # create more AddProductToBasketMessage's and put them in a queue for processing later
 #             var queue = new Queue<object>();
 #             queue.Enqueue(new AddProductToBasketMessage("Chablis wine", 1));
 #             queue.Enqueue(new AddProductToBasketMessage("shrimps", 10));
 # 
-#             // display each to message on the console
+    # display each to message on the console
 #             foreach (var enqueuedMessage in queue)
 #             {
 #                 Print(" [Message in Queue is:] * " + enqueuedMessage);
@@ -120,9 +120,9 @@ def main():
 #             which allows the message object to travel between processes.
 #             ");
 # 
-#             // Note: In the podcast we mentioned "MessageSerializer" as the code doing
-#             // the serialization.  That was replaced below with "SimpleNetSerializer"
-#             // to do the same thing in a simpler way to remove complexity from this sample.
+    # Note: In the podcast we mentioned "MessageSerializer" as the code doing
+    # the serialization.  That was replaced below with "SimpleNetSerializer"
+    # to do the same thing in a simpler way to remove complexity from this sample.
 # 
 #             var serializer = new SimpleNetSerializer();
 # 
@@ -139,12 +139,12 @@ def main():
 #             but this time it will serialize it from RAM to disk.
 #             ");
 # 
-#             // here is just another message with another product item and quantity
-#             // we have just decided we are going to serialize this specific one to disk
+    # here is just another message with another product item and quantity
+    # we have just decided we are going to serialize this specific one to disk
 #             var msg = new AddProductToBasketMessage("rosemary", 1);
 # 
-#             // this operation will use memory stream to convert message
-#             // to in-memory array of bytes, which we will operate later
+    # this operation will use memory stream to convert message
+    # to in-memory array of bytes, which we will operate later
 #             byte[] bytes;
 #             using (var stream = new MemoryStream())
 #             {
@@ -226,7 +226,7 @@ def main():
 # 
 #         static void ApplyMessage(ProductBasket basket, object message)
 #         {
-#             // this code accepts the message and actually adds the product to the supplied basket.
+    # this code accepts the message and actually adds the product to the supplied basket.
 #             ((dynamic) basket).When((dynamic)message);
 #         }
 # 
