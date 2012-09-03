@@ -33,7 +33,7 @@ def main():
     """);
 
     # Create an instance of the ProductBasket class
-    # It's AddProduct method takes the following arguments:
+    # Its AddProduct method takes the following arguments:
     #   a string with the name of a product we want to buy
     #   and a double number indicating the quantity of that item that we want
     # It then stores that item information in its internal _products Dictonary
