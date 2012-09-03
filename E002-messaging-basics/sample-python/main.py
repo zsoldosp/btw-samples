@@ -62,21 +62,22 @@ def main():
     # to store the values of the name and quantity arguements for us.
     # The AddProductToBasketMessage is a class defined lower in this Program.cs file
     # that will do exactly that for us.
-# 
-#             Print(@"
-#             Now, to add more stuff to the shopping basket via messaging (instead of a
-#             direct method call), we create an AddProductToBasketMessage to store our name
-#             and quantity arguments that will be provided to ProductBasket.AddProduct later
-#             ");
-# 
+ 
+    _print("""
+        Now, to add more stuff to the shopping basket via messaging (instead of a
+        direct method call), we create an AddProductToBasketMessage to store our name
+        and quantity arguments that will be provided to ProductBasket.AddProduct later
+    """);
+ 
     # creating a new message to hold the arguments of "5 candles" to be addded to the basket
     # looks like Rinat was planning a romantic dinner when he started this sample ;)
-#             var message = new AddProductToBasketMessage("candles",5);
-# 
-#             Print(@"Now, since we created that message, we will apply its item contents of:
-#             '" + message + "'" + @" 
-# 
-#             by sending it to the product basket to be handled.");
+    message = AddProductToBasketMessage("candles", 5)
+
+    _print(u"""
+        Now, since we created that message, we will apply its item contents of:
+        '%s'
+        by sending it to the product basket to be handled.
+    """ % message)
 # 
 #             ApplyMessage(basket, message);
 # 
@@ -281,24 +282,14 @@ class ProductBasket(object):
 #                 return _products;
 #             } 
 #         }
-#         [Serializable]
-#         public class AddProductToBasketMessage
-#         {
-#             public readonly string Name;
-#             public readonly double Quantity;
-# 
-#             public AddProductToBasketMessage(string name, double quantity)
-#             {
-#                 Name = name;
-#                 Quantity = quantity;
-#             }
-#             public override string ToString()
-#             {
-#                 return string.Format("Add {0} {1} to basket", Quantity, Name);
-#             }
-#         }
-#     }
-# }
+
+class AddProductToBasketMessage(object):
+    def __init__(self, name, quantity):
+        self.name = name
+        self.quantity = quantity
+
+    def __unicode__(self):
+        return 'Add %(quantity).2f %(product_name)s to basket' % dict(quantity=self.quantity, product_name=self.name)
 
 if __name__ == '__main__':
     main()
