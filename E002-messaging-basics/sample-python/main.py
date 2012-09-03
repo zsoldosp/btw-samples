@@ -265,12 +265,6 @@ class ProductBasket(object):
         print "[Message Applied]: "
         self.add_product(message.name, message.quantity)
 # 
-#             public void When(AddProductToBasketMessage toBasketMessage)
-#             {
-#                 Console.Write(
-#                 AddProduct(toBasketMessage.Name, toBasketMessage.Quantity);
-#             }
-# 
 #             public IDictionary<string, double> GetProductTotals()
 #             {
 #                 return _products;
