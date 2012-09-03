@@ -1,5 +1,6 @@
 ﻿import infrastructure
 import os
+from collections import deque
 
 # using System;
 # using System.Collections.Generic;
@@ -92,7 +93,7 @@ def main():
         Let's define more messages to put in a queue:
     """)
     # create more AddProductToBasketMessage's and put them in a queue for processing later
-    queue = []
+    queue = deque([])
     queue.append(AddProductToBasketMessage("Chablis wine", 1))
     queue.append(AddProductToBasketMessage("shrimps", 10))
     for enqueuedMessage in queue:
