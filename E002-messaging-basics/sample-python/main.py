@@ -98,23 +98,20 @@ def main():
     queue.append(AddProductToBasketMessage("shrimps", 10))
     for enqueuedMessage in queue:
         print u" [Message in Queue is:] * %s" % enqueuedMessage
-# 
-# 
-#             Print(@"
-#             This is what temporal decoupling is. Our product basket does not 
-#             need to be available at the same time that we create and memorize
-#             our messages. This will be extremely important, when we get to 
-#             building systems that balance load and can deal with failures.
-# 
-#             Now that we feel like it, let's send our messages that we put in the
-#             queue to the ProductBasket:
-#             ");
-# 
-#             while(queue.Count>0)
-#             {
-#                 ApplyMessage(basket, queue.Dequeue());
-#             }
-# 
+ 
+    _print("""
+        This is what temporal decoupling is. Our product basket does not 
+        need to be available at the same time that we create and memorize
+        our messages. This will be extremely important, when we get to 
+        building systems that balance load and can deal with failures.
+
+        Now that we feel like it, let's send our messages that we put in the
+        queue to the ProductBasket:
+    """)
+
+    while len(queue) > 0:
+        apply_message(basket, queue.pop())
+
 #             Print(@"
 #             Now let's serialize our message to binary form,
 #             which allows the message object to travel between processes.
