@@ -182,42 +182,38 @@ def main():
         _print("""Now let's apply that messaage to the product basket.
         """)
         apply_message(basket, read_message)
-# 
-#             Print(@"
-#             Now you've learned what a message is (just a remote temporally
-#             decoupled message/method call, that can be persisted and then
-#             dispatched to the place that handles the request.
-# 
-#             You also learned how to actually serialize a message to a binary form
-#             and then deserialize it and dispatch it the handler.");
-# 
-#             Print(@"
-#             As you can see, you can use messages for passing information
-#             between machines, telling a story and also persisting.
-#             
-#             By the way, let's see what we have aggregated in our product basket so far:
-#             ");
-# 
-#             foreach (var total in basket.GetProductTotals())
-#             {
-#                 Console.WriteLine("  {0}: {1}", total.Key, total.Value);
-#             }
-# 
-#             Print(@"
-#             And that is the basics of messaging!
-# 
-#             Stay tuned for more episodes and samples!
-# 
-# 
-#             # Home work assignment.
-# 
-#             * For C# developers - implement 'RemoveProductFromBasket'
-#             * For non-C# developers - implement this code in your favorite platform.
-# 
-#             NB: Don't hesitate to ask questions, if you get any.
-#             ");
-#         }
-# 
+ 
+    _print("""
+        Now you've learned what a message is (just a remote temporally
+        decoupled message/method call, that can be persisted and then
+        dispatched to the place that handles the request.
+
+        You also learned how to actually serialize a message to a binary form
+        and then deserialize it and dispatch it the handler.
+    """)
+    _print("""
+        As you can see, you can use messages for passing information
+        between machines, telling a story and also persisting.
+
+        By the way, let's see what we have aggregated in our product basket so far:
+    """)
+
+    for product_name, quantity in basket.get_product_totals():
+        print '  %s: %s' % (product_name, quantity)
+
+    _print("""
+        And that is the basics of messaging!
+
+        Stay tuned for more episodes and samples!
+
+
+        # Home work assignment.
+
+        * For C# developers - implement 'RemoveProductFromBasket'
+        * For non-C# developers - implement this code in your favorite platform.
+
+        NB: Don't hesitate to ask questions, if you get any.
+    """)
 
 def _print(message):
     """
@@ -261,12 +257,10 @@ class ProductBasket(object):
     def when_addproducttobasketmessage(self, message):
         print "[Message Applied]: "
         self.add_product(message.name, message.quantity)
-# 
-#             public IDictionary<string, double> GetProductTotals()
-#             {
-#                 return _products;
-#             } 
-#         }
+
+    def get_product_totals(self):
+        return self._products.iteritems()
+
 
 class AddProductToBasketMessage(object):
     def __init__(self, name, quantity):
