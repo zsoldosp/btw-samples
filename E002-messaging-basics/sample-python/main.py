@@ -150,37 +150,38 @@ def main():
     print bytes
     _print("""
          And if we tried to open it in a text editor, in python we get the same
-         representation
+         representation - so it's not binary, but certainly it isn't designed for
+         human consumption!
     """);
     print bytes
  
-#             Print(@"
-#             Note the readable string content with some 'garbled' binary data!
-#             Now we'll save (persist) the 'rosmary' message to disk, in file 'message.bin'.
-#                 
-#             You can see the message.bin file inside of:
-# 
-#             '" + Path.GetFullPath("message.bin") + @"'
-# 
-#             If you open it with Notepad, you will see the 'rosmary' message waiting on disk for you.
-#             ");
-#             File.WriteAllBytes("message.bin", bytes);
-# 
-# 
-#             Print(@"
-#             Let's read the 'rosmary' message we serialized to file 'message.bin' back into memory.
-# 
-#             The process of reading a serialized object from byte array back into intance in memory 
-#             is called deserialization.
-#             ");
-#             using (var stream = File.OpenRead("message.bin"))
-#             {
-#                 var readMessage = serializer.ReadMessage(stream);
-#                 Print("[Serialized Message was read from disk:] " + readMessage);
-#                 Print(@"Now let's apply that messaage to the product basket.
-#                 ");
-#                 ApplyMessage(basket, readMessage);
-#             }
+    serialized_filename = 'message.bin'
+    _print("""
+        Note the readable string content with some 'garbled' binary data!
+        Now we'll save (persist) the 'rosmary' message to disk, in file 'message.bin'.
+
+        You can see the %s file inside of:
+
+        '%s'
+
+        If you open it with Notepad, you will see the 'rosmary' message waiting on disk for you.
+    """ % (serialized_filename, os.path.abspath(serialized_filename)))
+
+    with open(serialized_filename, 'w+') as f:
+        f.write(bytes)
+
+    _print("""
+        Let's read the 'rosmary' message we serialized to file '%s' back into memory.
+
+        The process of reading a serialized object from byte array back into intance in memory 
+        is called deserialization.
+    """ % serialized_filename);
+    with open(serialized_filename, 'r') as stream:
+        read_message = serializer.read_message(stream)
+        _print(u"[Serialized Message was read from disk:] %s" % read_message)
+        _print("""Now let's apply that messaage to the product basket.
+        """)
+        apply_message(basket, read_message)
 # 
 #             Print(@"
 #             Now you've learned what a message is (just a remote temporally
