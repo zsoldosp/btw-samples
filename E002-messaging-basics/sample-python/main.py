@@ -1,17 +1,11 @@
 ﻿import infrastructure
 import os
 from collections import deque
-
-# using System;
-# using System.Collections.Generic;
-# using System.IO;
-# using System.Text;
-# using System.Reflection;
-# 
-# namespace E002
-# {
-#     class Program
-#     {
+from infrastructure import SimpleSerializer
+from StringIO import StringIO 
+# TODO: what is the difference between StringIO.StringIO and io.StringIO? see below lines
+#       io.StringIO doesn't work with pickle
+#       StringIO.StringIO doesn't work with context managers
 
 def apply_message(basket, message):
     method_to_call = 'when_%s' % type(message).__name__.lower() # TODO: should make this separate by underscores
@@ -112,52 +106,54 @@ def main():
     while len(queue) > 0:
         apply_message(basket, queue.pop())
 
-#             Print(@"
-#             Now let's serialize our message to binary form,
-#             which allows the message object to travel between processes.
-#             ");
-# 
+    _print("""
+        Now let's serialize our message to binary form,
+        which allows the message object to travel between processes.
+    """)
+
     # Note: In the podcast we mentioned "MessageSerializer" as the code doing
     # the serialization.  That was replaced below with "SimpleNetSerializer"
     # to do the same thing in a simpler way to remove complexity from this sample.
-# 
-#             var serializer = new SimpleNetSerializer();
-# 
-# 
-#             Print(@"
-#             Serialization is a process of recording an object instance
-#             (which currenly only exists in RAM/memory)
-#             to a binary representation (which is a set of bytes).
-#             Serialization is a way that we can save the state of our
-#             object instances to persistent (non-memory) storage.
-# 
-# 
-#             The code will now create another new message for the 'rosmary' product,
-#             but this time it will serialize it from RAM to disk.
-#             ");
-# 
+
+    serializer = SimpleSerializer();
+ 
+ 
+    _print("""
+        Serialization is a process of recording an object instance
+        (which currenly only exists in RAM/memory)
+        to a binary representation (which is a set of bytes).
+        Serialization is a way that we can save the state of our
+        object instances to persistent (non-memory) storage.
+ 
+        The code will now create another new message for the 'rosmary' product,
+        but this time it will serialize it from RAM to disk.
+    """)
+ 
     # here is just another message with another product item and quantity
     # we have just decided we are going to serialize this specific one to disk
-#             var msg = new AddProductToBasketMessage("rosemary", 1);
-# 
+    msg = AddProductToBasketMessage("rosemary", 1);
+ 
     # this operation will use memory stream to convert message
     # to in-memory array of bytes, which we will operate later
-#             byte[] bytes;
-#             using (var stream = new MemoryStream())
-#             {
-#                 serializer.WriteMessage(msg, msg.GetType(), stream);
-#                 bytes = stream.ToArray();
-#             }
-# 
-#             Print(@"
-#             Let's see how this 'rosmary' message object would look in its binary form:
-#             ");
-#             Console.WriteLine(BitConverter.ToString(bytes).Replace("-",""));
-#             Print(@"
-#             And if we tried to open it in a text editor...
-#             ");
-#             Console.WriteLine(Encoding.ASCII.GetString(bytes));
-# 
+    bytes = ''  # this isn't really bytes, since pickle is not a binary format,
+                # yet that is the recommended default serializer for python
+    stream = StringIO()
+    try:
+        serializer.write_message(msg, type(msg), stream)
+        bytes = stream.getvalue()
+    finally:
+        stream.close()
+
+    _print("""
+        Let's see how this 'rosmary' message object would look in its pickle form:
+    """)
+    print bytes
+    _print("""
+         And if we tried to open it in a text editor, in python we get the same
+         representation
+    """);
+    print bytes
+ 
 #             Print(@"
 #             Note the readable string content with some 'garbled' binary data!
 #             Now we'll save (persist) the 'rosmary' message to disk, in file 'message.bin'.
